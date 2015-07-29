@@ -9,7 +9,7 @@
 4. Make sure the minions are listed on the Salt master:  
 <code>salt-key -L</code>
 5. Run the initialize.sls state file on all minions to set up apache to use mod_ssl, create a local certificate authority, generate certificates, create a virtual interface, and get services started:  
-<code>salt '*' state.sls apache.initialize</code>  
+<code>salt '**' state.sls apache.initialize</code>  
 *** Note: In order for salt to locate apache.initialize, you'll need an apache folder in your Salt master's [file_roots](http://docs.saltstack.com/en/latest/ref/file_server/file_roots.html "File Roots") base directory  
 ** If your file_roots base is /srv/salt, create a subdirectory called 'apache' and copy initialize.sls into it
 6. Create a directory called '_grains' in your file_roots base directory and copy the tls grain file (v4.py) into it:  
