@@ -2,8 +2,7 @@
 
 1. [Build](https://docs.docker.com/reference/commandline/build/ "Build a docker image") an image from the Dockerfile:  
 <code>docker build --rm=true -t="salt-apache"</code>
-2. Install salt-master and configure it to auto_accept minion keys:  
-[Configuring the Salt Master](http://docs.saltstack.com/en/latest/ref/configuration/master.html#auto-accept "Auto Accepting Keys")
+2. Install salt-master and configure it to [auto_accept minion keys](http://docs.saltstack.com/en/latest/ref/configuration/master.html#auto-accept "Auto Accepting Keys")
 3. Spin up some docker containers from the <code>salt-apache</code> docker image created in step 1:  
 <code>for i in {1..5}; do docker run --privileged --hostname=salt-test-$i --add-host=salt:your_salt_master_ip -p 800$i:443 -p 810$i:80 --name=salt-minion$i -e "ADDR=172.17.0.1$i" -d salt-apache; done</code>
 4. Make sure the minions are listed on the Salt master:  
