@@ -1,4 +1,5 @@
 {% set ip_addr = salt['cmd.run']('echo $ADDR') %}
+{% set eth0 = salt['cmd.run']('echo $ETH0') %}
 
 httpd:
   service.running:
@@ -75,9 +76,9 @@ restart_httpd:
       - salt://apache/test.conf
     - order: last
 
-define_virtual_interface:
+define_interfaces:
   cmd.run:
-    - name: echo "DEVICE=eth0:0 BOOTPROTO=static ONBOOT=yes IPADDR=`echo $ADDR` NM_CONTROLLED=yes NETMASK=255.255.0.0 TYPE=Ethernet " > /etc/sysconfig/network-scripts/ifcfg-eth0:0
+    - name: echo "DEVICE=eth0:0 BOOTPROTO=static ONBOOT=yes IPADDR=`echo $ADDR` NM_CONTROLLED=yes NETMASK=255.255.0.0 TYPE=Ethernet " > /etc/sysconfig/network-scripts/ifcfg-eth0:0 && echo "DEVICE=eth0 BOOTPROTO=static ONBOOT=yes IPADDR=`echo $ETH0` NM_CONTROLLED=yes NETMASK=255.255.0.0 TYPE=Ethernet " > /etc/sysconfig/network-scripts/ifcfg-eth0
 
 substitue_addr:
   module.run:
@@ -88,7 +89,7 @@ substitue_addr:
 
 virtual_interface_up:
   cmd.run:
-    - name: ifup eth0:0
+    - name: ifup eth0
 
 update_hosts:
   cmd.run:
